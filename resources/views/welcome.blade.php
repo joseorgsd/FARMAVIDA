@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-5">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FARMAVIDA — Sistema de Gestión Farmacéutica</title>
 
@@ -744,7 +744,6 @@
         <li><a href="#modulos">Módulos</a></li>
         <li><a href="#roles">Roles</a></li>
         <li><a href="#beneficios">Beneficios</a></li>
-        <li><a href="#tecnologia">Tecnología</a></li>
     </ul>
     <a href="{{ route('login') }}" class="fv-btn-nav">Iniciar sesión</a>
 </nav>
@@ -1014,41 +1013,6 @@
     </div>
 </section>
 
-<!-- ══ TECNOLOGÍA ══ -->
-<section class="fv-tech-section" id="tecnologia">
-    <div class="fv-sec-inner">
-        <p class="fv-sec-eyebrow">Stack tecnológico</p>
-        <h2 class="fv-sec-title">Construido con tecnología robusta</h2>
-        <p class="fv-sec-desc">
-            Plataforma web moderna, segura y escalable, desarrollada sobre
-            herramientas ampliamente adoptadas en la industria.
-        </p>
-
-        <div class="fv-tech-grid">
-            <div class="fv-tech-card">
-                <div class="fv-tech-icon">⚙️</div>
-                <h5>Laravel 11</h5>
-                <p>Framework PHP robusto para el backend y la lógica de negocio</p>
-            </div>
-            <div class="fv-tech-card">
-                <div class="fv-tech-icon">🗄️</div>
-                <h5>MySQL</h5>
-                <p>Base de datos relacional con integridad y control de transacciones</p>
-            </div>
-            <div class="fv-tech-card">
-                <div class="fv-tech-icon">🎨</div>
-                <h5>Blade + Bootstrap</h5>
-                <p>Interfaz responsive accesible desde cualquier dispositivo</p>
-            </div>
-            <div class="fv-tech-card">
-                <div class="fv-tech-icon">🔒</div>
-                <h5>Autenticación segura</h5>
-                <p>Control de sesiones y permisos diferenciados por rol de usuario</p>
-            </div>
-        </div>
-    </div>
-</section>
-
 <!-- ══ CTA FINAL ══ -->
 <section class="fv-cta-section">
     <div class="fv-cta-inner">
@@ -1080,7 +1044,6 @@
                     <li><a href="#modulos">Módulos</a></li>
                     <li><a href="#roles">Roles de acceso</a></li>
                     <li><a href="#beneficios">Beneficios</a></li>
-                    <li><a href="#tecnologia">Tecnología</a></li>
                 </ul>
             </div>
             <div class="fv-footer-col">
