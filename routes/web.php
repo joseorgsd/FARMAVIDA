@@ -141,7 +141,11 @@ Route::middleware('auth')->group(function () {
         '/ventas/{venta}',
         [VentaController::class, 'destroy']
     )->name('ventas.destroy');
-
+    
+    Route::get(
+        '/ventas/comprobante/{venta}',
+        [VentaController::class, 'comprobante']
+    )->name('ventas.comprobante');
     /*
     |--------------------------------------------------------------------------
     | Recetas

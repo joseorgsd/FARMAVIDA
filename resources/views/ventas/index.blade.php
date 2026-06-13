@@ -56,23 +56,13 @@
                             <td class="px-5 py-3 text-center">
                                 @if($med->stock > 0)
                                     @if($med->requiere_receta)
-                                        <button onclick="agregarControlado(
-                                            {{ $med->id }},
-                                            @js($med->nombre),
-                                            {{ $med->precio }},
-                                            {{ $med->stock }}
-                                        )"
-                                        class="bg-amber-100 hover:bg-amber-200 text-amber-800 text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors">
-                                        + Con receta
+                                        <button onclick="agregarControlado({{ $med->id }}, '{{ $med->nombre }}', {{ $med->precio }}, {{ $med->stock }})"
+                                            class="bg-amber-100 hover:bg-amber-200 text-amber-800 text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors">
+                                            + Con receta
                                         </button>
                                     @else
-                                        <button onclick="agregar(
-                                            {{ $med->id }},
-                                            @js($med->nombre),
-                                            {{ $med->precio }},
-                                            {{ $med->stock }}
-                                        )"
-                                        class="bg-blue-100 hover:bg-blue-200 text-blue-800 text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors">
+                                        <button onclick="agregar({{ $med->id }}, '{{ $med->nombre }}', {{ $med->precio }}, {{ $med->stock }})"
+                                            class="bg-blue-100 hover:bg-blue-200 text-blue-800 text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors">
                                             + Agregar
                                         </button>
                                     @endif
@@ -192,7 +182,25 @@
         <button onclick="cerrarModal()" class="w-full btn-primary py-2.5">Nueva Venta</button>
     </div>
 </div>
+<form id="formVenta"
+      action="{{ route('ventas.store') }}"
+      method="POST"
+      style="display:none;">
 
+    @csrf
+
+    <input type="hidden"
+           name="cliente_id"
+           id="clienteInput">
+
+    <input type="hidden"
+           name="medicamento_id"
+           id="medicamentoInput">
+
+    <input type="hidden"
+           name="cantidad"
+           id="cantidadInput">
+</form>
 <script>
 let carrito = [];
 let metodoPago = 'efectivo';
@@ -284,26 +292,52 @@ function seleccionarPago(tipo) {
     document.getElementById('montoEfectivo').style.display = tipo === 'efectivo' ? 'block' : 'none';
 }
 
-function procesarVenta(tipo) {
-    if (carrito.length === 0) { alert('El carrito está vacío.'); return; }
-    const totalEl = document.getElementById('total').textContent;
-    const total = parseFloat(totalEl.replace('S/ ', '')) || 0;
-
-    if (metodoPago === 'efectivo') {
-        const recibido = parseFloat(document.getElementById('montoRecibido').value) || 0;
-        if (recibido < total) { alert('El monto recibido es insuficiente.'); return; }
+function procesarVenta(tipo)
+{
+    if(carrito.length === 0)
+    {
+        alert('El carrito está vacío');
+        return;
     }
 
-    const modal = document.getElementById('modalVenta');
-    const subtitulo = tipo === 'boleta' ? 'Boleta electrónica generada' : 'Factura electrónica generada';
-    document.getElementById('modalSubtitulo').textContent = subtitulo + ' · SUNAT';
+    if(carrito.length > 1)
+    {
+        alert(
+            'Por ahora solo puede vender un medicamento por vez.'
+        );
+        return;
+    }
 
-    const items = carrito.map(i => `<div class="flex justify-between"><span>${i.nombre} x${i.cantidad}</span><span>S/ ${(i.precio*i.cantidad).toFixed(2)}</span></div>`).join('');
-    document.getElementById('modalDetalle').innerHTML = items +
-        `<div class="border-t border-gray-200 pt-2 mt-2 flex justify-between font-bold"><span>TOTAL</span><span>${totalEl}</span></div>
-         <div class="text-xs text-gray-400 mt-1">Método: ${metodoPago.charAt(0).toUpperCase() + metodoPago.slice(1)}</div>`;
+    const item = carrito[0];
 
-    modal.classList.remove('hidden');
+    let cliente =
+        document.getElementById(
+            'selectCliente'
+        ).value;
+
+    if(cliente === '')
+    {
+        alert(
+            'Seleccione un cliente'
+        );
+        return;
+    }
+
+    document.getElementById(
+        'clienteInput'
+    ).value = cliente;
+
+    document.getElementById(
+        'medicamentoInput'
+    ).value = item.id;
+
+    document.getElementById(
+        'cantidadInput'
+    ).value = item.cantidad;
+
+    document.getElementById(
+        'formVenta'
+    ).submit();
 }
 
 function cerrarModal() {

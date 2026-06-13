@@ -23,7 +23,8 @@ class VentaController extends Controller
     }
 
     public function store(Request $request)
-    {
+    { 
+    
         $request->validate([
             'cliente_id'=>'required',
             'medicamento_id'=>'required',
@@ -68,9 +69,10 @@ class VentaController extends Controller
 
             DB::commit();
 
-            return back()
-                ->with('success',
-                'Venta registrada');
+            return redirect()->route(
+                'ventas.comprobante',
+                $venta->id
+            );
 
         } catch (\Exception $e) {
 
@@ -81,4 +83,16 @@ class VentaController extends Controller
                 $e->getMessage());
         }
     }
+    public function comprobante(Venta $venta)
+    {
+        $venta->load([
+            'cliente',
+            'detalles.medicamento'
+        ]);
+
+    return view(
+        'ventas.comprobante',
+        compact('venta')
+    );
+}
 }
